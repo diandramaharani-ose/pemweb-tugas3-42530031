@@ -1,0 +1,76 @@
+<%- include('../partials/header', { pageTitle: pageTitle }) %>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h2>Data Panitia</h2>
+      <p class="muted">Menampilkan <%= formatAngka(panitiaList.length) %> data panitia</p>
+    </div>
+    <a href="/panitia/tambah" class="btn btn-primary">+ Tambah Panitia</a>
+  </div>
+
+  <form class="filter" action="/panitia" method="GET">
+    <select name="divisi">
+      <option value="">Semua Divisi</option>
+      <% divisiList.forEach(d => { %>
+        <option value="<%= d %>" <%= filter.divisi === d ? 'selected' : '' %>><%= d %></option>
+      <% }) %>
+    </select>
+    <input type="text" name="q" value="<%= filter.q %>" placeholder="Cari nama panitia...">
+    <button type="submit" class="btn btn-primary">Cari</button>
+    <a href="/panitia" class="btn btn-light">Reset</a>
+  </form>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NIM</th>
+          <th>Nama Lengkap</th>
+          <th>Divisi</th>
+          <th>Jabatan</th>
+          <th>No. HP</th>
+          <th>Bergabung</th>
+          <th class="num">Kehadiran</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (panitiaList.length === 0) { %>
+          <tr><td colspan="10" class="empty">
+            <%= (filter.divisi || filter.q) ? 'Tidak ada data yang cocok dengan pencarian.' : 'Belum ada data panitia di basis data.' %>
+          </td></tr>
+        <% } else { %>
+          <% panitiaList.forEach(p => { %>
+            <tr>
+              <td><%= p.id %></td>
+              <td><%= p.nim %></td>
+              <td>
+                <strong><%= p.nama_lengkap %></strong>
+                <% if (p.catatan) { %><small><%= p.catatan %></small><% } %>
+              </td>
+              <td><%= p.divisi %></td>
+              <td><%= p.jabatan %></td>
+              <td><%= p.no_hp %></td>
+              <td><%= formatTanggal(p.tanggal_bergabung) %></td>
+              <td class="num"><%= formatAngka(p.jumlah_kehadiran) %>x</td>
+              <td>
+                <span class="badge <%= p.status === 'Aktif' ? 'badge-aktif' : 'badge-nonaktif' %>"><%= p.status %></span>
+              </td>
+              <td class="aksi">
+                <a href="/panitia/edit/<%= p.id %>" class="btn-link btn-edit">Edit</a>
+                <form action="/panitia/hapus/<%= p.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data panitia ini?');">
+                  <button type="submit" class="btn-link btn-hapus">Hapus</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
