@@ -50,3 +50,6 @@ Isi kolom **Status** (Pass/Fail) setelah pengujian dilakukan.
 | TC-06 | Keamanan | /panitia?divisi=... | GET | Input `Acara' OR '1'='1` via URL | Prepared Statement memperlakukan input sebagai literal (0 data, tidak ada injeksi) | | docs/screenshots/t3-06-sql-injection-mitigation.png |
 | TC-07 | Validasi Server | /panitia/tambah | POST | Submit NIM berisi huruf / NIM duplikat | Form tampil kembali dengan pesan galat (400), data tidak tersimpan | | docs/screenshots/t3-07-validasi-form.png |
 | TC-08 | Data Tidak Ditemukan | /panitia/edit/:id | GET | Buka /panitia/edit/9999 | Halaman 404 yang rapi, server tidak crash | | docs/screenshots/t3-08-not-found-404.png |
+
+## Video Penjelasan
+Link Youtube: https://youtu.be/MmV2i3a0LDs

@@ -18,10 +18,10 @@ const PanitiaModel = {
     const sql = `
       SELECT * FROM panitia
       WHERE (? = '' OR divisi = ?)
-        AND (? = '' OR nama_lengkap LIKE ?)
+        AND (? = '' OR nama_lengkap LIKE CONCAT('%', ?, '%'))
       ORDER BY id DESC
     `;
-    const [rows] = await db.execute(sql, [divisi, divisi, q, `%${q}%`]);
+    const [rows] = await db.execute(sql, [divisi, divisi, q, q]);
     return rows;
   },
 
